@@ -1,27 +1,21 @@
-import OpenAI from "openai";
 import 'dotenv/config';
+import OpenAI from "openai";
 
-const token = process.env["OPENAI_API_KEY"];
-const endpoint = "https://models.inference.ai.azure.com";
-const modelName = "gpt-4o";
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,  // ✅ API Key এখানে সঠিকভাবে লোড হচ্ছে কিনা চেক করো
+});
 
-export async function main() {
-  const client = new OpenAI({ baseURL: endpoint, apiKey: token });
-
-  const response = await client.chat.completions.create({
-    messages: [
-        { role:"system", content: "You are a helpful assistant." },
-        { role:"user", content: "What is the capital of France?" }
-      ],
-      temperature: 1.0,
-      top_p: 1.0,
-      max_tokens: 1000,
-      model: modelName
+async function main() {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [{ role: "user", content: "What is the capital of France?" }],
     });
 
-  console.log(response.choices[0].message.content);
+    console.log(response.choices[0].message.content);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+main();
