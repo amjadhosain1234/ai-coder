@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "openai": "latest"
+    "openai": "latest",
+    "dotenv": "^16.0.3"
   }
 }
